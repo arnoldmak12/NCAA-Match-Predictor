@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "NCAA Match Calculator", "NCAA Match Calculator\NCAA Match Calculator.pyproj", "{87125A00-16C8-4FE8-A911-EE55D374E7B6}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "NCAA Match Predictor", "NCAA Match Calculator\NCAA Match Predictor.pyproj", "{87125A00-16C8-4FE8-A911-EE55D374E7B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
