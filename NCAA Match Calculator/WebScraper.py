@@ -9,6 +9,7 @@ def getStats():
     soup = bs4.BeautifulSoup(response.text, 'lxml')
     table = soup.find(name='table', attrs={'id':'ratings-table'})
 
+    dict = {}
     count = 1
     for row in table.tbody.findAll(name='tr'):
         if count == 41:
@@ -45,17 +46,23 @@ def getStats():
             #count increase
             count += 1
 
-            #[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
-            #Display
-            print("The name of the team is: " + key)
-            print("Stats: " +
-                  "Win Ratio: " + str(win_ratio) +
-                  " AdjeM: " + str(adjem) +
-                  " AdjO: " + str(adjo) +
-                  " AdjD: " + str(adjd) +
-                  " AdjT: " + str(adjt) +
-                  " Luck: " + str(luck))
+            ##Display
+            #print("The name of the team is: " + key)
+            #print("Stats: " +
+            #      "Win Ratio: " + str(win_ratio) +
+            #      " AdjeM: " + str(adjem) +
+            #      " AdjO: " + str(adjo) +
+            #      " AdjD: " + str(adjd) +
+            #      " AdjT: " + str(adjt) +
+            #      " Luck: " + str(luck))
+
+            ##[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
+            stats = [key, rank, win_ratio, adjem, adjo, adjd, adjt, luck]
+            dict[key] = stats
+
+    return dict
             
 ####################################################################
 
-getStats()
+statsDict = getStats()
+print(statsDict)
