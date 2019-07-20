@@ -57,7 +57,7 @@ def getStats():
             #      " Luck: " + str(luck))
 
             ##[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
-            stats = [key, rank, win_ratio, adjem, adjo, adjd, adjt, luck]
+            stats = [rank, win_ratio, adjem, adjo, adjd, adjt, luck]
             dict[key] = stats
 
     return dict
