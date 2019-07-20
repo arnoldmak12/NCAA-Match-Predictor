@@ -1,6 +1,7 @@
 import requests, bs4
 import pandas as pd
 
+#Will Return HashTable of Data
 def getStats():
     url = "https://kenpom.com/"
     response = requests.get(url)
