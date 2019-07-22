@@ -2,7 +2,8 @@ import requests, bs4
 import pandas as pd
 
 #Will Return HashTable of Data
-def getStats(url, max):
+def getStats(year, max):
+    url = "https://kenpom.com/index.php?y=" + str(year)
     response = requests.get(url)
 
     soup = bs4.BeautifulSoup(response.text, 'lxml')
@@ -11,9 +12,10 @@ def getStats(url, max):
     dict = {}
     total_count = 0
     count = 1
+    dict["Columns"] = ["Rank", "Win Ratio", "AdjEM", "AdjO", "AdjD", "AdjT", "Luck"]
     for row in table.tbody.findAll(name='tr'):
         if total_count == max:
-            return dict;
+            break;
         elif count == 41:
             count += 1
         elif count == 42:
@@ -59,30 +61,24 @@ def getStats(url, max):
             #      " AdjT: " + str(adjt) +
             #      " Luck: " + str(luck))
 
-            ##[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
+            #[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
             stats = [rank, win_ratio, adjem, adjo, adjd, adjt, luck]
             dict[key] = stats
         else: 
             count += 1
             total_count += 1
 
-    return dict
+    #Put into csv file
+    df = pd.DataFrame(dict).T
+    df.to_csv('./stats/' + str(year) + '.csv')
             
 ####################################################################
 
 #Hard Coded Max for Each Year (Ascending)
+year = range(2002, 2020, 1)
 year_max = [252, 283, 266, 278, 271, 254, 306, 213, 231, 227, 237, 266, 259, 251, 285, 218, 316, 303]
-
-#Store All Urls
-urlDict = {}
-for i in range(2002, 2020, 1):
-    urlDict[i] =  "https://kenpom.com/index.php?y=" + str(i)
 
 #Store All Data
 statsDict = {}
-for i in range(2002, 2020, 1):
-    statsDict[i] =  getStats(urlDict[i], year_max[len(statsDict)])
-
-#Display
-for i in range(2002, 2020, 1):
-    print(str(i) + ": " + str(len(statsDict[i])))
+for i in range(0, 18, 1):
+    getStats(year[i], year_max[i])
