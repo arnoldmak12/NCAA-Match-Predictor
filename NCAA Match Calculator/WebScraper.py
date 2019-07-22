@@ -1,8 +1,17 @@
 import requests, bs4
 import pandas as pd
 
-#Will Return HashTable of Data
-def getStats(year, max):
+def getStats():
+    #Hard Coded Max for Each Year (Ascending)
+    year = range(2002, 2020, 1)
+    year_max = [252, 283, 266, 278, 271, 254, 306, 213, 231, 227, 237, 266, 259, 251, 285, 218, 316, 303]
+
+    #Method Call
+    for i in range(0, 18, 1):
+        yearlyStats(year[i], year_max[i])
+
+#Make csv file of specific year's regular season stats for all march madness teams
+def yearlyStats(year, max):
     url = "https://kenpom.com/index.php?y=" + str(year)
     response = requests.get(url)
 
@@ -52,7 +61,6 @@ def getStats(year, max):
             total_count += 1
 
             ##Display
-            #print(row.find(lambda tag: tag.name == 'span' and tag.get('class') == ['seed']).text + "The name of the team is: " + key + " Rank: " + str(rank))
             #print("Stats: " +
             #      "Win Ratio: " + str(win_ratio) +
             #      " AdjeM: " + str(adjem) +
@@ -71,14 +79,3 @@ def getStats(year, max):
     #Put into csv file
     df = pd.DataFrame(dict).T
     df.to_csv('./stats/' + str(year) + '.csv')
-            
-####################################################################
-
-#Hard Coded Max for Each Year (Ascending)
-year = range(2002, 2020, 1)
-year_max = [252, 283, 266, 278, 271, 254, 306, 213, 231, 227, 237, 266, 259, 251, 285, 218, 316, 303]
-
-#Store All Data
-statsDict = {}
-for i in range(0, 18, 1):
-    getStats(year[i], year_max[i])
