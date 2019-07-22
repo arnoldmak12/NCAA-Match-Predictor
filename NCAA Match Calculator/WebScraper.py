@@ -80,10 +80,8 @@ for i in range(2002, 2020, 1):
 
 #Store All Data
 statsDict = {}
-count = 0;
 for i in range(2002, 2020, 1):
-    statsDict[i] =  getStats(urlDict[i], year_max[count])
-    count += 1
+    statsDict[i] =  getStats(urlDict[i], year_max[len(statsDict)])
 
 #Display
 for i in range(2002, 2020, 1):
