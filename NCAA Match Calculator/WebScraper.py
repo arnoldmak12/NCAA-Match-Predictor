@@ -2,21 +2,23 @@ import requests, bs4
 import pandas as pd
 
 #Will Return HashTable of Data
-def getStats():
-    url = "https://kenpom.com/"
+def getStats(url, max):
     response = requests.get(url)
 
     soup = bs4.BeautifulSoup(response.text, 'lxml')
     table = soup.find(name='table', attrs={'id':'ratings-table'})
 
     dict = {}
+    total_count = 0
     count = 1
     for row in table.tbody.findAll(name='tr'):
-        if count == 41:
+        if total_count == max:
+            return dict;
+        elif count == 41:
             count += 1
         elif count == 42:
             count = 1
-        else:
+        elif row.find(lambda tag: tag.name == 'span' and tag.get('class') == ['seed-nit']) is None and int(row.find(lambda tag: tag.name == 'span' and tag.get('class') == ['seed']).text) <= 16:
             #Gets the Team Name for key
             key = row.find('a').text
 
@@ -45,9 +47,10 @@ def getStats():
         
             #count increase
             count += 1
+            total_count += 1
 
             ##Display
-            #print("The name of the team is: " + key)
+            #print(row.find(lambda tag: tag.name == 'span' and tag.get('class') == ['seed']).text + "The name of the team is: " + key + " Rank: " + str(rank))
             #print("Stats: " +
             #      "Win Ratio: " + str(win_ratio) +
             #      " AdjeM: " + str(adjem) +
@@ -59,10 +62,29 @@ def getStats():
             ##[Rank, Win Ratio, AdjEM, AdjO, AdjD, AdjT, Luck]
             stats = [rank, win_ratio, adjem, adjo, adjd, adjt, luck]
             dict[key] = stats
+        else: 
+            count += 1
+            total_count += 1
 
     return dict
             
 ####################################################################
 
-statsDict = getStats()
-print(statsDict)
+#Hard Coded Max for Each Year (Ascending)
+year_max = [252, 283, 266, 278, 271, 254, 306, 213, 231, 227, 237, 266, 259, 251, 285, 218, 316, 303]
+
+#Store All Urls
+urlDict = {}
+for i in range(2002, 2020, 1):
+    urlDict[i] =  "https://kenpom.com/index.php?y=" + str(i)
+
+#Store All Data
+statsDict = {}
+count = 0;
+for i in range(2002, 2020, 1):
+    statsDict[i] =  getStats(urlDict[i], 400)
+    count += 1
+
+#Display
+for i in range(2002, 2020, 1):
+    print(str(i) + ": " + str(len(statsDict[i])))
