@@ -82,7 +82,7 @@ for i in range(2002, 2020, 1):
 statsDict = {}
 count = 0;
 for i in range(2002, 2020, 1):
-    statsDict[i] =  getStats(urlDict[i], 400)
+    statsDict[i] =  getStats(urlDict[i], year_max[count])
     count += 1
 
 #Display
