@@ -1,6 +1,11 @@
-from WebScraper import getStats
+from WebScraper import *
 
 #Data Refresh
-refresh = (input('Want to Refresh the Data? y/n ') == 'y')
-if refresh:
+refreshStats = (input('Want to Refresh the Stats Data? y/n ') == 'y')
+if refreshStats:
     getStats()
+
+#Data Refresh
+refreshScores = (input('Want to Refresh the Scores Data? y/n ') == 'y')
+if refreshScores:
+    getScores()
